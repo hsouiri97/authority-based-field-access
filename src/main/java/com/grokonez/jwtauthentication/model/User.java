@@ -1,6 +1,8 @@
 package com.grokonez.jwtauthentication.model;
 
+import java.lang.reflect.Field;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -17,7 +19,11 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.grokonez.jwtauthentication.annotation.SecureRead;
 import org.hibernate.annotations.NaturalId;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {
@@ -28,7 +34,8 @@ import org.hibernate.annotations.NaturalId;
             "email"
         })
 })
-public class User{
+@Configuration
+public class User extends OEntity<User>{
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -45,6 +52,7 @@ public class User{
     @NotBlank
     @Size(max = 50)
     @Email
+    @SecureRead({"ROLE_ADMIN"})
     private String email;
 
     @NotBlank
@@ -66,6 +74,13 @@ public class User{
         this.password = password;
     }
 
+    public User(String name, String username, String password) {
+        this.name = name;
+        this.username = username;
+        this.password = password;
+    }
+
+
     public Long getId() {
         return id;
     }
@@ -74,6 +89,7 @@ public class User{
         this.id = id;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public String getUsername() {
         return username;
     }
@@ -112,5 +128,25 @@ public class User{
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+
+
+    public static boolean canRead(List<GrantedAuthority> authorities) {
+        for (Field field : User.class.getDeclaredFields()) {
+            SecureRead secureRead = field.getAnnotation(SecureRead.class);
+            if (secureRead != null) {
+                String[] allowedRoles = secureRead.value();
+                for (String role : allowedRoles) {
+                    for (GrantedAuthority authority : authorities) {
+                        if (authority.getAuthority().equalsIgnoreCase(role)) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+        }
+        return true;
     }
 }
