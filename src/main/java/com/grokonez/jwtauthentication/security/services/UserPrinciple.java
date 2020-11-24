@@ -25,7 +25,7 @@ public class UserPrinciple implements UserDetails {
     @JsonIgnore
     private String password;
 
-    private Collection<? extends GrantedAuthority> authorities;
+    private Collection<? extends GrantedAuthority> authorities; // consider them as fields
 
     public UserPrinciple(Long id, String name, 
 			    		String username, String email, String password, 

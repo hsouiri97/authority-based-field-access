@@ -3,6 +3,8 @@ package com.grokonez.jwtauthentication.service;
 import com.grokonez.jwtauthentication.message.request.UpdateForm;
 import com.grokonez.jwtauthentication.model.User;
 import com.grokonez.jwtauthentication.repository.UserRepository;
+import com.grokonez.jwtauthentication.repository.UserRepositoryCustom;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,18 +12,17 @@ import java.util.List;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final PatchSecurityService patchSecurityService;
+    private final UserRepositoryCustom userRepositoryCustom;
 
-    public UserService(UserRepository userRepository, PatchSecurityService patchSecurityService) {
+
+    @Autowired
+    public UserService(UserRepository userRepository, UserRepositoryCustom userRepositoryCustom) {
         this.userRepository = userRepository;
-        this.patchSecurityService = patchSecurityService;
+        this.userRepositoryCustom = userRepositoryCustom;
     }
 
     public List<User> getAllUsers() {
-        if (patchSecurityService.canRead()) {
-            return userRepository.findAll();
-        }
-        return userRepository.findAllWithoutEmailAndRoles();
+        return userRepositoryCustom.findAllWithSpecificAttributes();
     }
 
     public User getUserByUsername(String username) {

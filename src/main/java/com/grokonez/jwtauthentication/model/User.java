@@ -1,9 +1,7 @@
 package com.grokonez.jwtauthentication.model;
 
 import java.lang.reflect.Field;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -35,7 +33,7 @@ import org.springframework.security.core.GrantedAuthority;
         })
 })
 @Configuration
-public class User extends OEntity<User>{
+public class User{
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -57,12 +55,14 @@ public class User extends OEntity<User>{
 
     @NotBlank
     @Size(min=6, max = 100)
+    @SecureRead({"ROLE_ADMIN"}) // IT should take the parameter name
     private String password;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles", 
     	joinColumns = @JoinColumn(name = "user_id"), 
     	inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @SecureRead({"ROLE_NOROLE"})
     private Set<Role> roles = new HashSet<>();
 
     public User() {}
@@ -89,7 +89,6 @@ public class User extends OEntity<User>{
         this.id = id;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     public String getUsername() {
         return username;
     }
@@ -132,21 +131,22 @@ public class User extends OEntity<User>{
 
 
 
-    public static boolean canRead(List<GrantedAuthority> authorities) {
+    public static List<Field> canRead(List<GrantedAuthority> authorities) {
+        List<Field> fieldsOfCriteria = new LinkedList<>(Arrays.asList(User.class.getDeclaredFields()));
         for (Field field : User.class.getDeclaredFields()) {
             SecureRead secureRead = field.getAnnotation(SecureRead.class);
             if (secureRead != null) {
                 String[] allowedRoles = secureRead.value();
                 for (String role : allowedRoles) {
                     for (GrantedAuthority authority : authorities) {
-                        if (authority.getAuthority().equalsIgnoreCase(role)) {
-                            return true;
+                        if (!authority.getAuthority().equalsIgnoreCase(role)) {
+                            fieldsOfCriteria.remove(field);
                         }
                     }
                 }
-                return false;
+
             }
         }
-        return true;
+        return fieldsOfCriteria;
     }
 }

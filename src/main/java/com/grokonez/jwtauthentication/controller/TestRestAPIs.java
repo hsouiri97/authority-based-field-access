@@ -25,11 +25,9 @@ public class TestRestAPIs {
 	}
 
 	@GetMapping("/api/test/user/{username}")
-	//@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	public User getUserByUsername(@PathVariable String username) {
 		return userService.getUserByUsername(username);
 	}
-
 
 	@PutMapping("/api/test/user/{id}")
 	public User updateUserById(@PathVariable Long id, @RequestBody UpdateForm updateForm) {
