@@ -1,0 +1,8 @@
+
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÕçÜ´
+s
+java:S1128"VRemove this unused import 'org.springframework.security.core.userdetails.UserDetails'.(ÊÁ¥8Õ†«à.
+7
+java:S22752"Not enough arguments.(ÕŠæøÿÿÿÿ8ãå‹€à.
+R
+java:S2387"7"logger" is the name of a field in "GenericFilterBean".(âÂË¸ûÿÿÿÿ

@@ -1,0 +1,6 @@
+
+s
+java:S1128"VRemove this unused import 'org.springframework.security.core.userdetails.UserDetails'.( Å¡•8Ù°®Å‡.
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ª•˙˙
+©
+java:S1130"íRemove the declaration of thrown exception 'org.springframework.security.core.userdetails.UsernameNotFoundException' which is a runtime exception.(Ñ˝†∏

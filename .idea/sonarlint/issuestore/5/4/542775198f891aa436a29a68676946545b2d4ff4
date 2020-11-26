@@ -1,0 +1,14 @@
+
+<
+java:S14525"&Remove usage of generic wildcard type.(ûÍ¢Ò
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(µò•ê¯ˇˇˇˇ
+o
+java:S2293G"YReplace the type specification in this constructor call with the diamond operator ("<>").(’⁄ˇ˛
+@
+java:S5411F"*Use the primitive boolean expression here.(á÷Ö≤
+@
+java:S5411K"*Use the primitive boolean expression here.(åâ”å
+z
+java:S1192["dDefine a constant instead of duplicating this literal "Fail! -> Cause: User Role not find." 3 times.(’‡Ìª
+o
+java:S2293L"YReplace the type specification in this constructor call with the diamond operator ("<>").(ñÉ“ÿ
