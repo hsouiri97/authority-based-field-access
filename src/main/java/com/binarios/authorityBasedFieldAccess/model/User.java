@@ -18,7 +18,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.binarios.authorityBasedFieldAccess.annotation.SaveMetadataAtStartup;
-import com.binarios.authorityBasedFieldAccess.annotation.SecureRead;
 import org.hibernate.annotations.NaturalId;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -53,7 +52,6 @@ public class User{
 
     @NotBlank
     @Size(min=6, max = 100)
-    @SecureRead({"ROLE_ADMIN"}) // IT should take the parameter name
     private String password;
 
     @ManyToMany(fetch = FetchType.LAZY)
