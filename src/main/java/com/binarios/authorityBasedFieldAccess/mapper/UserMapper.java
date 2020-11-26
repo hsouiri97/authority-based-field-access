@@ -24,6 +24,7 @@ public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     UserResponse userToUserResponse(User user);
+    List<UserResponse> userResponseList(List<User> users);
 
     @AfterMapping
     default void removeSpecificProperties(User user, @MappingTarget UserResponse userResponse) {

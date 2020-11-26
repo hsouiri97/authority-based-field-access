@@ -1,8 +1,11 @@
 package com.binarios.authorityBasedFieldAccess.message.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.HashSet;
 import java.util.Set;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserResponse {
     private Long id;
     private String name;

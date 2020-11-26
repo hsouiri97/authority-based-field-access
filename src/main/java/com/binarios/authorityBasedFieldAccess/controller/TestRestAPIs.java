@@ -23,7 +23,7 @@ public class TestRestAPIs {
 	}
 
 	@GetMapping("/api/test/users")
-	public List<User> userAccess() {
+	public List<UserResponse> userAccess() {
 		System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 		return this.userService.getAllUsers();
 	}

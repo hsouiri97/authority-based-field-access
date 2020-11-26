@@ -24,8 +24,9 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserResponse> getAllUsers() {
+        //return userRepository.findAll();
+        return UserMapper.INSTANCE.userResponseList(userRepository.findAll());
     }
 
     public UserResponse getUserByUsername(String username) {
